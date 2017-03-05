@@ -12,3 +12,6 @@ h2#current-lap-time {
 div#btn-group-stop {
   display: none;
 }
+i {
+  pointer-events: none;
+}
