@@ -1,34 +1,27 @@
 $(function() {
-  var runningIntervalID;
-  var pausedIntervalID;
-
-  var startTime;
-  var startLapTime;
-  var pauseTime;
-
-  var timeElapsed = 0;
-  var timePaused = 0;
-
-  var isStarted = false;
-  var isPaused = false;
-
   var $displayTime = $('h1#total-time');
   var $displayLapTime = $('h2#current-lap-time');
-  var $startStopButton = $('button.btn-lg').first();
+  var $runPauseButton = $('button.btn-lg').first();
   var $lapButton = $('button#lap');
   var $resetButton = $('button#reset');
+  var $lapsTable = $('tbody');
 
+  var intervalID;
+  var elapsedTime = 0;
+  var previousTime = 0;
+  var lapTime = 0;
+  var laps = 0;
 
   $('div#button-container').on('click', 'button', function($event) {
     switch ($event.target.id) {
       case 'start':
         start($(this));
         break;
-      case 'stop':
-        stop($(this));
+      case 'pause':
+        pause($(this));
         break;
       case 'lap':
-
+        lap();
         break;
       case 'reset':
         reset();
@@ -38,70 +31,65 @@ $(function() {
 
   function start($button) {
     $button.removeClass('btn-success').addClass('btn-danger')
-    $button.html('<i class="fa fa-stop" aria-hidden="true"></i>')
-    $button.attr('id', 'stop');
+    $button.html('<i class="fa fa-pause" aria-hidden="true"></i>')
+    $button.attr('id', 'pause');
+
     $lapButton.removeAttr('disabled');
     $resetButton.removeAttr('disabled');
 
-    clearInterval(pausedIntervalID);
-    runningIntervalID = window.setInterval(running);
-
+    stopwatchInterval = window.setInterval(update);
   }
 
-  function stop($button) {
+  function pause($button) {
     $button.removeClass('btn-danger').addClass('btn-success');
     $button.html('<i class="fa fa-play" aria-hidden="true"></i>')
     $button.attr('id', 'start');
+    $lapButton.attr('disabled', 'true');
 
-    clearInterval(runningIntervalID);
-    pausedIntervalID = window.setInterval(paused);
+    clearInterval(stopwatchInterval);
+    previousTime = 0;
   }
 
   function lap() {
-
+    laps++;
+    var newRow = $('<tr>');
+    newRow.append(`<td>${laps}</td>`);
+    newRow.append(`<td>${formatTime(new Date(lapTime))}</td>`);
+    $lapsTable.append(newRow);
+    lapTime = 0;
   }
 
   function reset() {
-    clearInterval(runningIntervalID);
-    clearInterval(pausedIntervalID);
+    clearInterval(stopwatchInterval);
+    elapsedTime = 0;
+    previousTime = 0;
+    lapTime = 0;
+    laps = 0;
 
     $displayTime.text('00:00.000');
     $displayLapTime.text('00:00.000');
 
-    $startStopButton.removeClass('btn-danger').addClass('btn-success');
-    $startStopButton.html('<i class="fa fa-play" aria-hidden="true"></i>')
-    $startStopButton.attr('id', 'start');
+    $runPauseButton.removeClass('btn-danger').addClass('btn-success');
+    $runPauseButton.html('<i class="fa fa-play" aria-hidden="true"></i>')
+    $runPauseButton.attr('id', 'start');
 
     $lapButton.attr('disabled', 'true');
     $resetButton.attr('disabled', 'true');
-
-    isStarted = false;
-    isPaused = false;
-
-    timeElapsed = 0;
-    timePaused = 0;
+    $lapsTable.empty();
 
   }
 
-  function running() {
-    if (!isStarted) {
-      startTime = Date.now();
-      isStarted = true;
-    } else if (isPaused) {
-
-      isPaused = false;
+  function update() {
+    if (!previousTime) {
+      previousTime = Date.now();
     }
-    timeElapsed = new Date(Date.now() - startTime - timePaused);
-    updateTotalTimeDisplay(timeElapsed);
-    updateLapTimeDisplay(timeElapsed);
-  }
 
-  function paused() {
-    if (!isPaused) {
-      pauseTime = Date.now();
-      isPaused = true;
-    }
-    timePaused = new Date(Date.now() - pauseTime);
+    elapsedTime += Date.now() - previousTime;
+    lapTime += Date.now() - previousTime;
+    previousTime = Date.now();
+
+    $displayTime.text(formatTime(new Date(elapsedTime)));
+    $displayLapTime.text(formatTime(new Date(lapTime)));
   }
 
   function formatTwoDigitTime(time) {
@@ -118,12 +106,7 @@ $(function() {
     }
   }
 
-  function updateTotalTimeDisplay(time) {
-    $displayTime.text(`${formatTwoDigitTime(time.getMinutes())}:${formatTwoDigitTime(time.getSeconds())}.${formatThreeDigitTime(time.getMilliseconds())}`);
+  function formatTime(dateObj) {
+    return `${formatTwoDigitTime(dateObj.getMinutes())}:${formatTwoDigitTime(dateObj.getSeconds())}.${formatThreeDigitTime(dateObj.getMilliseconds())}`;
   }
-
-  function updateLapTimeDisplay(time) {
-    $displayLapTime.text(`${formatTwoDigitTime(time.getMinutes())}:${formatTwoDigitTime(time.getSeconds())}.${formatThreeDigitTime(time.getMilliseconds())}`);
-  }
-
 })
