@@ -83,9 +83,10 @@ $(function() {
     if (!previousTime) {
       previousTime = Date.now();
     }
+    let addTime = Date.now() - previousTime;
 
-    elapsedTime += Date.now() - previousTime;
-    lapTime += Date.now() - previousTime;
+    elapsedTime += addTime;
+    lapTime += addTime;
     previousTime = Date.now();
 
     $displayTime.text(formatTime(new Date(elapsedTime)));
