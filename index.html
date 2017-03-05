@@ -1,1 +1,62 @@
+<!DOCTYPE html>
+<html>
 
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ray Meibaum | Stopwatch</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="page-header">
+      <h1>Stopwatch <small>by Ray Meibaum</small></h1>
+    </div>
+    <div class="container stopwatch">
+      <div class="jumbotron">
+        <div class="display">
+          <h1 id="total-time">00:00.000</h1>
+          <h2 id="current-lap-time">00:00.000</h2>
+        </div>
+
+        <div class="btn-group btn-group-justified" role="group" aria-label="...">
+          <div class="btn-group" role="group" id="btn-group-start">
+            <button type="button" class="btn btn-lg btn-success" id="start"><i class="fa fa-play" aria-hidden="true"></i></button>
+          </div>
+          <div class="btn-group" role="group" id="btn-group-stop">
+            <button type="button" class="btn btn-lg btn-danger" id="stop"><i class="fa fa-stop" aria-hidden="true"></i></button>
+          </div>
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-lg btn-default" id="lap" disabled><i class="fa fa-circle-o-notch" aria-hidden="true"></i></button>
+          </div>
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-lg btn-default" id="reset" disabled><i class="fa fa-fast-backward" aria-hidden="true"></i></button>
+          </div>
+        </div>
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Lap</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>00:00.000</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script src="https://use.fontawesome.com/6f3979c58d.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="js/main.js"></script>
+</body>
+
+</html>

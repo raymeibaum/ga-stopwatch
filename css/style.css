@@ -1,1 +1,14 @@
-
+div.container.stopwatch {
+  max-width: 500px;
+  /*text-align: center;*/
+  margin: 0 auto;
+}
+div.display {
+  text-align: right;
+}
+h2#current-lap-time {
+  color: gray;
+}
+div#btn-group-stop {
+  display: none;
+}
