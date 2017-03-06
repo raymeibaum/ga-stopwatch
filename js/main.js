@@ -37,7 +37,7 @@ $(function() {
     $lapButton.removeAttr('disabled');
     $resetButton.removeAttr('disabled');
 
-    stopwatchInterval = window.setInterval(update);
+    intervalID = window.setInterval(update);
   }
 
   function pause($button) {
@@ -46,7 +46,7 @@ $(function() {
     $button.attr('id', 'start');
     $lapButton.attr('disabled', 'true');
 
-    clearInterval(stopwatchInterval);
+    clearInterval(intervalID);
     previousTime = 0;
   }
 
