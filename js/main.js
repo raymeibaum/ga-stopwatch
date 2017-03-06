@@ -60,7 +60,7 @@ $(function() {
   }
 
   function reset() {
-    clearInterval(stopwatchInterval);
+    clearInterval(intervalID);
     elapsedTime = 0;
     previousTime = 0;
     lapTime = 0;
